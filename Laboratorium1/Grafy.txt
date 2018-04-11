@@ -1,0 +1,24 @@
+#Jakieś grafy
+
+digraph G {
+
+    1 -> 2 
+    2 -> 3
+    2 -> 4  
+    3 -> 5
+    3 -> 6
+}
+
+digraph H {
+    A -> B
+    A -> C
+    A -> D
+    B -> C
+    B -> D
+    C -> D
+}
+
+digraph I {
+    X -> Y
+    T -> Q
+}

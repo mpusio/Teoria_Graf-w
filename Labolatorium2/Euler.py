@@ -29,7 +29,7 @@ class Graph:
                     neighbors.remove(nums)
 
         l_edg = list_edges()
-        actuall_vertices = None
+        actuall_vertices = self.list_neighbors[0]
         stack = []
         vertices_visited = []
 
@@ -37,17 +37,23 @@ class Graph:
         stack.append(actuall_vertices)
 
         while stack != []:
-            stack[-1] = actuall_vertices
+            actuall_vertices = stack[-1]
+
             neighbors = neighbors_v(actuall_vertices)
             neighbors_substract_visited()
 
-            if actuall_vertices in neighbors:
+            if neighbors != []: #jezeli wierzcholek posiada sasiadow
+                actuall_vertices = sorted(neighbors)[0] #sasiad pierwszy w kolejnosci
                 vertices_visited.append(actuall_vertices)
                 stack.append(actuall_vertices)
             else:
                 stack.pop()
-                
-        return True  # zwraca true jezeli jest spojny
+
+        #Sprawdzamy czy graf jest spojny, tzn czy jego odwiedzone wierzcholki sa rowne wszystkim wierzcholkom
+        if sorted(vertices_visited) == list(sorted(set(self.list_neighbors))):
+            return True
+        else:
+            return False
 
     def amount_vertices(self):
         """Zwraca liczbe wierzcholkow w grafie"""
@@ -69,9 +75,9 @@ class Graph:
                 even.append(values)
 
         if (len(even) == self.amount_vertices()) and self.DFS():
-            print "Graf jest eulerowski"
+            print "Graf jest Eulerowski"
         else:
-            print "Graf nie jest eulerowski"
+            print "Graf nie jest Eulerowski"
 
     def check_half_Euler(self):
         odd = []
@@ -83,10 +89,29 @@ class Graph:
         if len(odd) <= 2 and self.DFS():
             print "Graf jest poleulerowski"
         else:
-            print "Graf nie jest poleulerowski"
+            print "Graf nie poleulerowski"
 
-#Przykladowe wywolanie:
-list_neighbors = [0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 1, 2, 1, 4, 1, 5, 2, 3, 2, 4, 3, 5, 4, 5] # graf poleulerowski z przykladu
-graf = Graph(list_neighbors)
-graf.check_Euler()
-graf.check_half_Euler()
+    def result(self):
+        if self.DFS():
+            print "Graf jest spojny"
+        else:
+            print "Graf nie jest spojny"
+        self.check_Euler()
+        self.check_half_Euler()
+
+
+
+
+#Przykladowe wywolania:
+#ln1 = [0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 1, 2, 1, 4, 1, 5, 2, 3, 2, 4, 3, 5, 4, 5] # graf poleulerowski z przykladu
+#graf1 = Graph(ln1)
+#graf1.result()
+#ln2 = [1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 2, 3, 2, 5, 2, 6, 3, 4, 3, 5, 4, 6, 5, 6] #poleulerowski
+#graf2 = Graph(ln2)
+#graf2.result()
+#ln3 = [1, 2, 1, 6, 2, 3, 3, 4, 4, 5, 5, 6] #eulerowski
+#graf3 = Graph(ln3)
+#graf3.result()
+#ln4 = [1, 2, 3, 4, 3] #nie jest spojny
+#graf4 = Graph(ln4)
+#graf4.result()

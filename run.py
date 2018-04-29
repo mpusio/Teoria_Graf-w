@@ -11,3 +11,6 @@ f.close()
 #Przykladowe wywolania:
 graf1 = Graph(edg_list)
 graf1.result()
+
+
+#https://pastebin.com/YSBw5g3n
